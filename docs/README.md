@@ -1,8 +1,6 @@
-## POO_GX - PROJECT NAME
+## SPACE INVAIDERS
 
-> Include here one or two paragraphs explaining the main idea of the project, followed by a sentence identifying who the authors are.
-
-**Example**:
+**SPACE INVAIDERS**:
 
 In this exciting platform game you can help KangarooBoy save the world, by collecting all the coins throughout ten different levels in which you will […].
 
