@@ -5,17 +5,12 @@
 <p align="justify">Welcome to Space Invaders: the last frontier between fun and intergalactic chaos! Get ready to embark on an epic journey through the cosmos where rowdy aliens have invaded outer space. It's time to show who's boss here and defend the universe with your unstoppable skills. Put on your space helmet, adjust your gravity belt and get ready for the most cosmic battle of your life! The invaders are coming, and the only thing standing between them and total destruction is... you! Let the intergalactic fun begin!</p>
 
 This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
+
 ## FEATURES
+
 ### IMPLEMENTED FEATURES
 
-> This section should contain a list of implemented features and their descriptions. In the end of the section, include two or three screenshots that illustrate the most important features.
-
-**Examples**:
-
-Working on it
-
-> - **Jumping** - The game character will jump when the space bar key is pressed.
-> - **Getting hidden coins** - When the game character hits a platform from below (by jumping beneath it) it will smash that segment of the platform and will get any coins that may exist hidden there.
+- **Working on it**
 
 ### PLANNED FEATURES
 
