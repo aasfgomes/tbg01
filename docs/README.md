@@ -1,6 +1,6 @@
 # SPACE INVAIDERS
 
-**GAME DESCRIPTION**:
+## GAME DESCRIPTION
 
 <p align="justify">Welcome to Space Invaders: the last frontier between fun and intergalactic chaos! Get ready to embark on an epic journey through the cosmos where rowdy aliens have invaded outer space. It's time to show who's boss here and defend the universe with your unstoppable skills. Put on your space helmet, adjust your gravity belt and get ready for the most cosmic battle of your life! The invaders are coming, and the only thing standing between them and total destruction is... you! Let the intergalactic fun begin!</p>
 
@@ -12,12 +12,21 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 **Examples**:
 
-- **Jumping** - The game character will jump when the space bar key is pressed.
-- **Getting hidden coins** - When the game character hits a platform from below (by jumping beneath it) it will smash that segment of the platform and will get any coins that may exist hidden there.
+Working on it
+
+> - **Jumping** - The game character will jump when the space bar key is pressed.
+> - **Getting hidden coins** - When the game character hits a platform from below (by jumping beneath it) it will smash that segment of the platform and will get any coins that may exist hidden there.
 
 ### PLANNED FEATURES
-
-> This section is similar to the previous one but should list the features that are not yet implemented. Instead of screenshots you should include GUI mock-ups for the planned features.
+ **Menu** -  When you start the game, a menu will open and you can choose to play, close the game or see the best scores
+ **Vehicle** - Maybe a spaceship or other vehicle, who knows?
+ **Movement** - The vehicle can move in all directions when we press the arrow keys
+ **Shooting** - It will be possible shoot laser
+ **Enemy** - There will be monsters that we should shoot at
+ **Score** - There will be a score for each game
+ **Score Ranking** - There will be a ranking of the scores of the 5 best players
+ **Lives** - The player has an amount of lives, that decreases everytime he dies.
+ **Game Over** - When the player runs out of lives, the game ends.
 
 ### DESIGN
 
