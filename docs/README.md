@@ -1,11 +1,11 @@
-## SPACE INVAIDERS
+# SPACE INVAIDERS
 
-**SPACE INVAIDERS**:
+**GAME DESCRIPTION**:
 
-In this exciting platform game you can help KangarooBoy save the world, by collecting all the coins throughout ten different levels in which you will […].
+Welcome to Space Invaders: the last frontier between fun and intergalactic chaos! Get ready to embark on an epic journey through the cosmos where rowdy aliens have invaded outer space. It's time to show who's boss here and defend the universe with your unstoppable skills. Put on your space helmet, adjust your gravity belt and get ready for the most cosmic battle of your life! The invaders are coming, and the only thing standing between them and total destruction is... you! Let the intergalactic fun begin!
 
-This project was developed by _John Doe_ (_john.doe_@umaia.pt) and _Jane Doe_ (_jane.doe_@umaia.pt) for POO 2023⁄24.
-
+This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
+## FEATURES
 ### IMPLEMENTED FEATURES
 
 > This section should contain a list of implemented features and their descriptions. In the end of the section, include two or three screenshots that illustrate the most important features.
