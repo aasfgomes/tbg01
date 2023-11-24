@@ -20,31 +20,32 @@ Working on it
 ### PLANNED FEATURES
 
 - **Menu**
- - When you start the game, a menu will open, and you can choose to play, close the game, or see the best scores.
+    - When you start the game, a menu will open, and you can choose to play, close the game, or see the best scores.
 
 - **Vehicle**
- - Maybe a spaceship or another vehicle, who knows?
+    - Maybe a spaceship or another vehicle, who knows?
 
 - **Movement**
- - The vehicle can move in all directions when we press the arrow keys.
+    - The vehicle can move in all directions when we press the arrow keys.
 
 - **Shooting**
- - It will be possible to shoot lasers.
+    - It will be possible to shoot lasers.
 
 - **Enemy**
- - There will be monsters that we should shoot at.
+    - There will be monsters that we should shoot at.
 
 - **Score**
- - There will be a score for each game.
+    - There will be a score for each game.
 
 - **Score Ranking**
- - There will be a ranking of the scores of the 5 best players.
+    - There will be a ranking of the scores of the 5 best players.
 
 - **Lives**
- - The player has an amount of lives that decreases every time he dies.
+    - The player has an amount of lives that decreases every time he dies.
 
 - **Game Over**
- - When the player runs out of lives, the game ends.
+    - When the player runs out of lives, the game ends.
+
 
 
 ### DESIGN
