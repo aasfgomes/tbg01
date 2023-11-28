@@ -54,7 +54,7 @@ We have applied the **State** pattern. This pattern allows you to represent diff
 
 The following figure shows how the pattern’s roles were mapped to the application classes.
 
-![img](https://www.fe.up.pt/~arestivo/page/img/examples/lpoo/state.svg)
+![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/main_page.png)
 
 These classes can be found in the following files:
 
