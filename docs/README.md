@@ -55,6 +55,10 @@ We have applied the **State** pattern. This pattern allows you to represent diff
 The following figure shows how the pattern’s roles were mapped to the application classes.
 
 ![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/main_page.png)
+![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/introduction.png)
+![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/leaderboard.png)
+![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/gameover.png)
+![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/game.png)
 
 These classes can be found in the following files:
 
