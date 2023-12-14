@@ -10,7 +10,7 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 ### IMPLEMENTED FEATURES
 
-- **Working on it**
+- **Menu**
 
 ### PLANNED FEATURES
 
@@ -101,5 +101,5 @@ A way to improve the code would be to move the `isPlatformSegmentSolid()` method
 
 **Example**:
 
-- John Doe: 40%
-- Jane Doe: 60%
+- André Gomes: 100%
+
