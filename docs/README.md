@@ -24,9 +24,6 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 - **Lives** - The player has an amount of lives that decreases every time he dies.
 - **Game Over** - When the player runs out of lives, the game ends.
 
-
-
-
 ### DESIGN
 
 > This section should be organized in different subsections, each describing a different design problem that you had to solve during the project. Each subsection should be organized in four different parts:

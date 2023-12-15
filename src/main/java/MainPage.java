@@ -19,7 +19,7 @@ public class MainPage {
 
     public void initScreen() throws IOException {
         // Ajustar aqui o tamanho da fonte para as opções do menu aqui!!!!!
-        Font font = new Font("Monospaced", Font.BOLD, 18);
+        Font font = new Font("Monospaced", Font.BOLD, 24);
         SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.newInstance(font);
 
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory()
