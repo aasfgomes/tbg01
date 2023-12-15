@@ -8,7 +8,7 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 ## FEATURES UNTIL NOW
 
-    - **Menu**
+- **Main Menu**
 
 
 ## Game Mechanics
@@ -17,8 +17,8 @@ For proper interaction within the game, players should use the following control
 
 - **Left Arrow Key** [<-] Moves the character to the left, allowing lateral movement in that direction.
 - **Right Arrow Key**[->] Moves the character to the right, facilitating lateral progression in this direction.
-- **Space Bar** Executes the shooting action, crucial for engaging with challenges and adversaries.
-- **ESC** Pauses the current game session, offering the option to either exit or pause the gameplay, as well as to return to the main menu.
+- **Space Bar** executes the shooting action, crucial for engaging with challenges and adversaries.
+- **ESC** pauses the current game session, offering the option to either exit or pause the gameplay, as well as to return to the main menu.
 
 These control settings are designed to ensure an intuitive and responsive gaming experience.
 
