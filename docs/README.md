@@ -14,7 +14,6 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 ### PLANNED FEATURES
 
-- **Menu** - When you start the game, a menu will open, and you can choose to play, close the game, or see the best scores.
 - **Vehicle** - Maybe a spaceship or another vehicle, who knows?
 - **Movement** - The vehicle can move in all directions when we press the arrow keys.
 - **Shooting** - It will be possible to shoot lasers.

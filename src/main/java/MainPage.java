@@ -17,6 +17,14 @@ public class MainPage {
     private int selectedMenuItemIndex = 0;
     private String[] menuItems = {"CLICK HERE TO PLAY", "LEADERBOARD", "INTRODUCTION", "EXIT"};
 
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
+    public Screen getScreen() {
+        return this.screen;
+    }
+
     public void initScreen() throws IOException {
         // Ajustar aqui o tamanho da fonte para as opções do menu aqui!!!!!
         Font font = new Font("Monospaced", Font.BOLD, 24);
@@ -29,6 +37,7 @@ public class MainPage {
         screen = new TerminalScreen(terminal);
         screen.startScreen();
     }
+
 
     public void draw() throws IOException {
         screen.clear();
@@ -132,5 +141,6 @@ public class MainPage {
                 e.printStackTrace();
             }
         }
+
     }
 }
