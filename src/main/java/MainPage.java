@@ -96,39 +96,42 @@ public class MainPage {
         }
     }
 
-    public void run() throws IOException {
-        draw();
-        KeyStroke keyStroke;
+public void run() throws IOException {
+    draw();
+    KeyStroke keyStroke;
 
-        do {
-            keyStroke = screen.readInput();
-            switch (keyStroke.getKeyType()) {
-                case ArrowUp:
-                    selectedMenuItemIndex = (selectedMenuItemIndex - 1 + menuItems.length) % menuItems.length;
-                    draw();
-                    break;
-                case ArrowDown:
-                    selectedMenuItemIndex = (selectedMenuItemIndex + 1) % menuItems.length;
-                    draw();
-                    break;
-                case Enter:
-                    if (selectedMenuItemIndex == 2) { // Verifica se a opção selecionada é "INTRODUCTION"
-                        Introduction introduction = new Introduction(screen); // Passa 'screen' como argumento
-                        introduction.display();
-                        draw(); // Redesenha o menu principal após a introdução
-                    } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
-                        screen.stopScreen(); // Fecha a tela
-                        return; // Termina o método run()
-                    }
-                    break;
-                default:
-                    break;
-            }
-        } while (keyStroke.getKeyType() != KeyType.Escape);
+    do {
+        keyStroke = screen.readInput();
+        switch (keyStroke.getKeyType()) {
+            case ArrowUp:
+                selectedMenuItemIndex = (selectedMenuItemIndex - 1 + menuItems.length) % menuItems.length;
+                draw();
+                break;
+            case ArrowDown:
+                selectedMenuItemIndex = (selectedMenuItemIndex + 1) % menuItems.length;
+                draw();
+                break;
+            case Enter:
+                if (selectedMenuItemIndex == 0) { // Verifica se a opção selecionada é "CLICK HERE TO PLAY"
+                    Game game = new Game(screen); // Cria uma nova instância de Game
+                    game.start(); // Inicia o jogo
+                    draw(); // Redesenha o menu principal após o jogo
+                } else if (selectedMenuItemIndex == 2) { // Verifica se a opção selecionada é "INTRODUCTION"
+                    Introduction introduction = new Introduction(screen); // Passa 'screen' como argumento
+                    introduction.display();
+                    draw(); // Redesenha o menu principal após a introdução
+                } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
+                    screen.stopScreen(); // Fecha a janela
+                    return; // Termina o método run()
+                }
+                break;
+            default:
+                break;
+        }
+    } while (keyStroke.getKeyType() != KeyType.Escape);
 
-        screen.stopScreen();
-    }
-
+    screen.stopScreen();
+}
     public static void main(String[] args) {
         MainPage menuScreen = new MainPage();
         try {

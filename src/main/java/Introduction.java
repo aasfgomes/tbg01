@@ -16,14 +16,12 @@ public class Introduction {
         this.screen = screen;
     }
 
-    // Método para desenhar a caixa de texto
     public void display() throws IOException {
         screen.clear();
         TextGraphics textGraphics = screen.newTextGraphics();
         drawTextBox(textGraphics);
         screen.refresh();
 
-        // Espera que o user carregue em  ESC para ir para o menu
         KeyStroke keyStroke = screen.readInput();
         while (keyStroke != null && keyStroke.getKeyType() != KeyType.Escape) {
             keyStroke = screen.readInput();
@@ -32,8 +30,6 @@ public class Introduction {
     }
 
     private void drawTextBox(TextGraphics textGraphics) {
-        textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
-
         String[] textBox = {
                 "+-----------------------------+",
                 "|         INTRODUCTION        |",
@@ -66,7 +62,28 @@ public class Introduction {
         int boxStartY = (screen.getTerminalSize().getRows() - boxHeight) / 2;
 
         for (int i = 0; i < textBox.length; i++) {
-            textGraphics.putString(boxStartX, boxStartY + i, textBox[i]);
+            String line = textBox[i];
+            if (line.contains("INTRODUCTION") || line.contains("HOW TO PLAY") || line.contains("PRESS ESC TO GO BACK")) {
+                // Divide a linha em três partes: a "parede" esquerda, o texto e a "parede" direita
+                String leftWall = line.substring(0, 1);
+                String text = line.substring(1, line.length() - 1);
+                String rightWall = line.substring(line.length() - 1);
+
+                // Desenha a "parede" esquerda
+                textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+                textGraphics.putString(boxStartX, boxStartY + i, leftWall);
+
+                // Desenha o texto
+                textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
+                textGraphics.putString(boxStartX + 1, boxStartY + i, text);
+
+                // Desenha a "parede" direita
+                textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+                textGraphics.putString(boxStartX + line.length() - 1, boxStartY + i, rightWall);
+            } else {
+                textGraphics.setForegroundColor(TextColor.ANSI.WHITE);
+                textGraphics.putString(boxStartX, boxStartY + i, line);
+            }
         }
     }
 
