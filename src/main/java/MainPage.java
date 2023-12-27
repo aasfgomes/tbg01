@@ -26,7 +26,7 @@ public class MainPage {
     }
 
     public void initScreen() throws IOException {
-        // Ajustar aqui o tamanho da fonte para as opções do menu aqui!!!!!
+        // Ajustar aqui o tamanho da fonte para as opções do menu
         Font font = new Font("Monospaced", Font.BOLD, 24);
         SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.newInstance(font);
 
@@ -37,7 +37,6 @@ public class MainPage {
         screen = new TerminalScreen(terminal);
         screen.startScreen();
     }
-
 
     public void draw() throws IOException {
         screen.clear();
@@ -90,7 +89,7 @@ public class MainPage {
                 textGraphics.putString(menuCol, menuItemRow, " ".repeat(menuItem.length()));
                 textGraphics.setForegroundColor(TextColor.ANSI.BLACK);
                 textGraphics.putString(menuCol, menuItemRow, menuItem);
-                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK); // Resetar a cor de fundo
+                textGraphics.setBackgroundColor(TextColor.ANSI.BLACK); // Reset a cor de fundo
             }
 
             menuItemRow += 2; // Aumenta o espaçamento entre as opções do menu
@@ -113,10 +112,15 @@ public class MainPage {
                     draw();
                     break;
                 case Enter:
-                    // PARA FAZER
-                    System.out.println("Selected: " + menuItems[selectedMenuItemIndex]);
-
-                    return;
+                    if (selectedMenuItemIndex == 2) { // Verifica se a opção selecionada é "INTRODUCTION"
+                        Introduction introduction = new Introduction(screen); // Passa 'screen' como argumento
+                        introduction.display();
+                        draw(); // Redesenha o menu principal após a introdução
+                    } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
+                        screen.stopScreen(); // Fecha a tela
+                        return; // Termina o método run()
+                    }
+                    break;
                 default:
                     break;
             }
@@ -141,6 +145,5 @@ public class MainPage {
                 e.printStackTrace();
             }
         }
-
     }
 }
