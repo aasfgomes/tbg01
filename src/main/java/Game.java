@@ -1,77 +1,120 @@
-import java.awt.Font;
-import java.io.File;
 import java.io.IOException;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
-import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.Screen;
 
 public class Game {
     private Screen screen;
-    private Font font;
+    private Spaceship spaceship;
+    private List<Alien> aliens;
+    private List<Bullet> bullets;
 
     public Game(Screen screen) {
         this.screen = screen;
+        this.aliens = new ArrayList<>();
+        this.bullets = new ArrayList<>();
     }
 
-    public Font getFont() {
-        return font;
-    }
+    public boolean start() throws IOException {
+        screen.clear();
+        TextGraphics textGraphics = screen.newTextGraphics(); 
 
-    public void setFont(Font font) {
-        this.font = font;
-    }
+        // Obtemos o tamanho do terminal
+        int screenWidth = screen.getTerminalSize().getColumns();
+        int screenHeight = screen.getTerminalSize().getRows();
 
-    public Font changeFont(String path, int size){
-        File fontFile = new File(path);
-        Font font;
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT,fontFile);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        // Calcula a posição da nave
+        int spaceshipWidth = 4; // largura da nave
+        int spaceshipX = (screenWidth - spaceshipWidth) / 2;
+        int spaceshipY = screenHeight - 6; // Coloca a nave X linhas acima do fundo da terminal
+
+        spaceship = new Spaceship(spaceshipX, spaceshipY);
+        spaceship.draw(textGraphics);
+
+        // Cria uma lista de aliens
+        int numAliens = 15;
+        int alienWidth = 5; // largura real alien
+        int totalAlienWidth = numAliens * alienWidth;
+        int totalSpaces = numAliens + 1; // Espaços entre aliens e também nas bordas
+        int spaceWidth = (screenWidth - totalAlienWidth) / totalSpaces;
+        
+
+        for (int i = 0; i < numAliens; i++) {
+            int x = spaceWidth + i * (alienWidth + spaceWidth); // Começa com um espaço e adiciona o índice do alien * (largura do alien + largura do espaço)
+            Alien alien = new Alien(x, 0); // todos os aliens começam na linha 0
+            aliens.add(alien);
+            alien.draw(textGraphics);
         }
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ge.registerFont(font);
-        Font loaded = font.deriveFont(Font.PLAIN,size);
-        return loaded;
-    }
 
-    public void createTerminal(int width, int height) {
-        setFont(changeFont("src/main/resources/fonts/Square-Regular.ttf", 20));
-        AWTTerminalFontConfiguration cfg = new SwingTerminalFontConfiguration(true,
-            AWTTerminalFontConfiguration.BoldMode.NOTHING, getFont());
-        try {
-            Terminal terminal = new DefaultTerminalFactory()
-                .setForceAWTOverSwing(true)
-                .setInitialTerminalSize(new TerminalSize(width, height))
-                .setTerminalEmulatorFontConfiguration(cfg)
-                .createTerminal();
-            // ...
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        screen.refresh();
 
-    public void start() {
-        try {
+        int counter = 0;
+        while (true) {
+            KeyStroke keyStroke = screen.pollInput();
+
+            // Se o user pressionar ESC, sai do jogo
+            if (keyStroke != null) {
+                if (keyStroke.getKeyType() == KeyType.Escape) {
+                    return false;
+                }
+
+                // Move a nave para a esquerda se a tecla esquerda for pressionada
+                if (keyStroke.getKeyType() == KeyType.ArrowLeft) {
+                    spaceship.moveLeft();
+                }
+
+                // Move a nave para a direita se a tecla direita for pressionada
+                if (keyStroke.getKeyType() == KeyType.ArrowRight) {
+                    spaceship.moveRight(screenWidth);
+                }
+
+                // Dispara um tiro se a tecla espaço for pressionada
+                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' ') {
+                    Bullet bullet = spaceship.shoot();
+                    bullets.add(bullet);
+                }
+            }
+
+            // Move cada tiro para cima a cada 5 ciclos do loop
+            if (counter % 5 == 0) {
+                List<Bullet> bulletsToRemove = new ArrayList<>();
+                List<Alien> aliensToRemove = new ArrayList<>();
+
+                for (Bullet bullet : bullets) {
+                    bullet.moveUp();
+
+                    // Verifica se o tiro atingiu algum alien
+                    for (Alien alien : aliens) {
+                        if (bullet.getX() == alien.getX() && bullet.getY() == alien.getY()) {
+                            // Se um tiro atingiu um alien, adiciona o tiro e o alien às listas de remoção
+                            bulletsToRemove.add(bullet);
+                            aliensToRemove.add(alien);
+                            break;
+                        }
+                    }
+                }
+
+                // Remove os tiros e aliens que foram atingidos
+                bullets.removeAll(bulletsToRemove);
+                aliens.removeAll(aliensToRemove);
+            }
+
+            // Redesenhe o estado do jogo
             screen.clear();
-            TextGraphics textGraphics = screen.newTextGraphics();
-            textGraphics.putString(10, 10, "Game started!", SGR.BOLD);
+            spaceship.draw(textGraphics);
+            for (Alien alien : aliens) {
+                alien.draw(textGraphics);
+            }
+            for (Bullet bullet : bullets) {
+                bullet.draw(textGraphics);
+            }
             screen.refresh();
-            Thread.sleep(2000); // Wait for 2 seconds
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            counter++;
         }
     }
 }
