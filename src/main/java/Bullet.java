@@ -1,9 +1,10 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 
 public class Bullet {
     private int x, y;
-    private int width; 
+    private int width;
 
     // COntrutor com x e y 
     public Bullet(int x, int y) {
@@ -15,11 +16,16 @@ public class Bullet {
         int bulletX = this.x + this.width / 2; // Centra o tiro na nave (não está a funcionar)
         int bulletY = this.y;
         return new Bullet(bulletX, bulletY);
-    }
+    }   
 
     public void draw(TextGraphics textGraphics) {
-        textGraphics.putString(x, y, "|");
-    }
+        TextColor originalColor = textGraphics.getForegroundColor(); // Guardar a cor original
+
+        textGraphics.setForegroundColor(Color.Orange.getColor()); // Colocar cor vermelho 
+        textGraphics.putString(x, y, "|"); // Desenhar o tiro
+
+        textGraphics.setForegroundColor(originalColor); // Reset par a cor original
+    } 
 
     public void moveUp() {
         y--;
@@ -33,4 +39,8 @@ public class Bullet {
     public int getY() {
         return y;
     }
+    public void moveDown() {
+    y++;
+}
+    
 }

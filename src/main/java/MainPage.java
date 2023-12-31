@@ -122,7 +122,8 @@ public void run() throws IOException {
                     draw(); // Redesenha o menu principal após a introdução
                 } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
                     screen.stopScreen(); // Fecha a janela
-                    return; // Termina o método run()
+                    
+                    return; 
                 }
                 break;
             default:
