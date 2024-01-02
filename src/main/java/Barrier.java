@@ -4,9 +4,9 @@ public class Barrier {
     private int x;
     private int y;
     private String[] design = {
-        "--------------",
-        "|            |",
-        "|            |",
+        "-----------",
+        "|         |",
+        "|         |",
         
     };
 

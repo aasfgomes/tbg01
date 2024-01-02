@@ -13,7 +13,7 @@ public class Bullet {
     }
 
     public Bullet shoot() {
-        int bulletX = this.x + this.width / 2; // Centra o tiro na nave (não está a funcionar)
+        int bulletX = this.x + this.width / 2; // Centra o tiro na nave (corrigido)
         int bulletY = this.y;
         return new Bullet(bulletX, bulletY);
     }   

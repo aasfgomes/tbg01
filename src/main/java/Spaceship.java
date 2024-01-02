@@ -8,9 +8,10 @@ public class Spaceship {
         this.x = x;
         this.y = y;
     }
+    
 
     public void draw(TextGraphics textGraphics) {
-        TextColor originalColor = textGraphics.getForegroundColor(); // Save the original color
+        TextColor originalColor = textGraphics.getForegroundColor(); // Cor original
 
         textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
         String[] spaceship = {
@@ -26,7 +27,7 @@ public class Spaceship {
             textGraphics.putString(x, y + i, spaceship[i]);
         }
 
-        textGraphics.setForegroundColor(originalColor); // Reset the color to the original color
+        textGraphics.setForegroundColor(originalColor); // Reset para a cor original ( anteriormente ficava da cor dos tiros)
     }
 
     private static final int spaceshipWidth = 7;
@@ -44,12 +45,11 @@ public class Spaceship {
     }
 
     public Bullet shoot() {
-        return new Bullet(x + (spaceshipWidth/2), y - 1); // Cria um novo tiro na posição atual da nave
+        return new Bullet(x + (spaceshipWidth/2), y - 1); // Cria um novo tiro na posição atual da nave ( corrigido)
     }
 
     public boolean isHit(AlienBullet alienBullet) {
         // Verifica se a bala de alienígena atingiu a nave
-        // Isso é apenas um exemplo, você precisa ajustar a lógica de acordo com a implementação do seu jogo
         return this.x == alienBullet.getX() && this.y == alienBullet.getY();
     }
 }

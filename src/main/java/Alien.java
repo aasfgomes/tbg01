@@ -10,10 +10,9 @@ public class Alien {
     }
 
     public void draw(TextGraphics textGraphics) {
-        TextColor originalColor = textGraphics.getForegroundColor(); // Save the original color
+        TextColor originalColor = textGraphics.getForegroundColor(); // Guarda a cor original
 
-        textGraphics.setForegroundColor(TextColor.ANSI.GREEN); // Set the color to green
-
+        textGraphics.setForegroundColor(TextColor.ANSI.GREEN); // Colocar cor verde
         String[] smallAlien = {
             " (o.o) ",
             "   V   "
@@ -23,7 +22,7 @@ public class Alien {
             textGraphics.putString(x, y + i, smallAlien[i]);
         }
 
-        textGraphics.setForegroundColor(originalColor); // Reset the color to the original color
+        textGraphics.setForegroundColor(originalColor); // Reset para a cor original
     }    
 
     public int getX() {
@@ -35,6 +34,14 @@ public class Alien {
     }
 
     public AlienBullet shoot() {
-        return new AlienBullet(x + 3, y + 3); // Cria um novo tiro na posição atual do alien
+        return new AlienBullet(x + 3, y + 3); // Cria um novo tiro na posição atual do alien ( corrigir, não está a sair nada visualmente)
+    }
+
+    public void moveUp() {
+        this.y -= 1;
+    }
+    
+    public void moveDown() {
+        this.y += 1;
     }
 }

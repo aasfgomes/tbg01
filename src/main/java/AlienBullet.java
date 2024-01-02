@@ -21,10 +21,10 @@ public class AlienBullet {
     } 
 
     public void moveDown() {
-        moveCounter++;
-        if (moveCounter % 2 == 0) { // Mover a bala para baixo a cada duas chamadas para moveDown()
+        // moveCounter++;
+        // if (moveCounter % 3 == 0) { // Mover a bala para baixo a cada X chamadas para moveDown()
             y += 1;
-        }
+        
     }
 
     // Métodos get para x e y

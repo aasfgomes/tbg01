@@ -27,7 +27,7 @@ public class MainPage {
 
     public void initScreen() throws IOException {
         // Ajustar aqui o tamanho da fonte para as opções do menu
-        Font font = new Font("Monospaced", Font.BOLD, 18);
+        Font font = new Font("Monospaced", Font.BOLD, 20);
         SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.newInstance(font);
 
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory()
@@ -122,7 +122,7 @@ public void run() throws IOException {
                     draw(); // Redesenha o menu principal após a introdução
                 } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
                     screen.stopScreen(); // Fecha a janela
-                    
+                                
                     return; 
                 }
                 break;
