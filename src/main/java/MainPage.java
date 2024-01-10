@@ -9,6 +9,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +43,18 @@ public class MainPage {
         ge.registerFont(font);
         Font loaded = font.deriveFont(Font.PLAIN,size);
         return loaded;
+    }
+
+    public void playSound(String soundFileName) {
+        try {
+            File soundFile = new File(soundFileName);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -132,15 +145,18 @@ public void run() throws IOException {
         keyStroke = screen.readInput();
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
+                playSound("src/main/resources/selected.wav");
                 selectedMenuItemIndex = (selectedMenuItemIndex - 1 + menuItems.length) % menuItems.length;
                 draw();
                 break;
             case ArrowDown:
+                playSound("src/main/resources/selected.wav");
                 selectedMenuItemIndex = (selectedMenuItemIndex + 1) % menuItems.length;
                 draw();
                 break;
             case Enter:
                 if (selectedMenuItemIndex == 0) { // Verifica se a opção selecionada é "CLICK HERE TO PLAY"
+
                     Game game = new Game(screen); // Cria uma nova instância de Game
                     game.start(); // Inicia o jogo
                     draw(); // Redesenha o menu principal após o jogo
