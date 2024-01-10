@@ -44,7 +44,7 @@ public class Game {
 
     // Método para mostrar Game Over
     private void showGameOver() throws IOException {
-        // Limpa a tela antes de mostrar a mensagem Game Over
+        // Limpa tudo antes de mostrar Game Over
         screen.clear();
 
         TextGraphics textGraphics = screen.newTextGraphics();
