@@ -38,7 +38,33 @@ public class Game {
         this.alienBullets = new ArrayList<>();
         this.lastShotTime = System.currentTimeMillis();
     }
+    private boolean isGameOver() {
+        return lives <= 0;
+    }
 
+    // Método para mostrar Game Over
+    private void showGameOver() throws IOException {
+        // Limpa a tela antes de mostrar a mensagem Game Over
+        screen.clear();
+
+        TextGraphics textGraphics = screen.newTextGraphics();
+        int screenWidth = screen.getTerminalSize().getColumns();
+        int screenHeight = screen.getTerminalSize().getRows();
+
+        // Mostra Game Over no centro da tela
+        String gameOverMessage = "Game Over";
+        int messageX = (screenWidth - gameOverMessage.length()) / 2;
+        int messageY = screenHeight / 2;
+        textGraphics.putString(messageX, messageY, gameOverMessage);
+        screen.refresh();
+
+        // Pausa antes de encerrar o jogo
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     private void aliensShoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 1000) {
@@ -115,7 +141,7 @@ public class Game {
         int screenWidth = screen.getTerminalSize().getColumns();
         int screenHeight = screen.getTerminalSize().getRows();
 
-        int spaceshipWidth = 4;
+        int spaceshipWidth = 1; // Largura da nave, ao alterar isto para > o hitbox da bala do alien é maior
         int spaceshipX = (screenWidth - spaceshipWidth) / 2;
         int spaceshipY = screenHeight - 3; // Posição da nave no eixo Y
         int alienHeight = 1;
@@ -148,6 +174,11 @@ public class Game {
             int counter = 0;
             while (true) {
                 KeyStroke keyStroke = screen.pollInput();
+
+                if (isGameOver()) {
+                    showGameOver();
+                    return false; // Sai do jogo
+                }
 
                 if (keyStroke != null) {
                     if (keyStroke.getKeyType() == KeyType.Escape) {
@@ -214,7 +245,44 @@ public class Game {
                     for (Alien alien : aliensToRemove) {
                         score += 10;
                     }
+
+                    List<AlienBullet> alienBulletsToRemove = new ArrayList<>();
+                    for (AlienBullet alienBullet : alienBullets) {
+                        if (alienBullet.getX() >= spaceship.getX() && alienBullet.getX() <= spaceship.getX() + spaceshipWidth &&
+                            alienBullet.getY() >= spaceship.getY() && alienBullet.getY() <= spaceship.getY() + alienHeight) {
+                            lives--; // Decrementa uma vida
+                            score = 0; // Reinicia os pontos
+                            // Remove todos os aliens e bullets para reiniciar o jogo
+                            aliens.clear();
+                            bullets.clear();
+                            alienBulletsToRemove.add(alienBullet);
+                            // Mostra a mensagem "Aliens got you!"
+                            int messageX = (screenWidth - "Aliens got you!".length()) / 2;
+                            textGraphics.putString(messageX, screenHeight / 2, "Aliens got you!");
+                            screen.refresh();
+                            // Pausa o jogo por 2 segundos antes de reiniciar
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            screen.clear();
+                            // Recria os aliens iniciais
+                            for (int row = 0; row < numAlienRows; row++) {
+                                for (int col = 0; col < numAliensPerRow; col++) {
+                                    int x = initialX + col * (alienWidth + spaceWidth);
+                                    int y = (row + 1) * alienHeight;
+                                    Alien newAlien = new Alien(x, y);
+                                    aliens.add(newAlien);
+                                }
+                            }
+                            // Sai do loop para reiniciar o jogo
+                            break;
+                        }
+                    }
+                    alienBullets.removeAll(alienBulletsToRemove);
                 }
+
                 for (Alien alien : aliens) {
                     if (alien.getY() >= spaceship.getY()) {
                         lives--; // Decrementa uma vida
