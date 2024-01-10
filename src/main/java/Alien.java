@@ -3,27 +3,22 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Alien {
     private int x, y;
+    private boolean movingRight;
 
     public Alien(int x, int y) {
         this.x = x;
         this.y = y;
+        this.movingRight = true; // Defina a direção inicial como direita
     }
 
     public void draw(TextGraphics textGraphics) {
         TextColor originalColor = textGraphics.getForegroundColor(); // Guarda a cor original
 
         textGraphics.setForegroundColor(TextColor.ANSI.GREEN); // Colocar cor verde
-        String[] smallAlien = {
-            " (o.o) ",
-            "   V   "
-        };
-
-        for (int i = 0; i < smallAlien.length; i++) {
-            textGraphics.putString(x, y + i, smallAlien[i]);
-        }
+        textGraphics.putString(x, y, "W"); // Desenha o alien
 
         textGraphics.setForegroundColor(originalColor); // Reset para a cor original
-    }    
+    }
 
     public int getX() {
         return x;
@@ -33,14 +28,22 @@ public class Alien {
         return y;
     }
 
-    public AlienBullet shoot() {
-        return new AlienBullet(x + 3, y + 3); // Cria um novo tiro na posição atual do alien ( corrigir, não está a sair nada visualmente)
+    public void moveLeft() {
+        if (movingRight) {
+            // Se estava se movendo para a direita, agora move para a esquerda
+            movingRight = false;
+        }
+        this.x -= 1;
     }
 
-    public void moveUp() {
-        this.y -= 1;
+    public void moveRight() {
+        if (!movingRight) {
+            // Se estava se movendo para a esquerda, agora move para a direita
+            movingRight = true;
+        }
+        this.x += 1;
     }
-    
+
     public void moveDown() {
         this.y += 1;
     }

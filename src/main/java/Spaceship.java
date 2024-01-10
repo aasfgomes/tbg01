@@ -15,12 +15,7 @@ public class Spaceship {
 
         textGraphics.setForegroundColor(TextColor.ANSI.GREEN);
         String[] spaceship = {
-            "   .  ",
-            "  / \\  ",
-            " (   ) ",
-            " (   ) ",
-            "/|/|\\|\\",
-            "|||||||"
+            "Z"
         };
 
         for (int i = 0; i < spaceship.length; i++) {
@@ -45,11 +40,7 @@ public class Spaceship {
     }
 
     public Bullet shoot() {
-        return new Bullet(x + (spaceshipWidth/2), y - 1); // Cria um novo tiro na posição atual da nave ( corrigido)
+        return new Bullet(this.x, this.y - 1); // A bala é criada acima da nave
     }
 
-    public boolean isHit(AlienBullet alienBullet) {
-        // Verifica se a bala de alienígena atingiu a nave
-        return this.x == alienBullet.getX() && this.y == alienBullet.getY();
-    }
 }

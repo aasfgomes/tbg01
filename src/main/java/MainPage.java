@@ -6,16 +6,44 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 
-import java.awt.Font;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class MainPage {
 
     private Screen screen;
     private int selectedMenuItemIndex = 0;
-    private String[] menuItems = {"CLICK HERE TO PLAY", "LEADERBOARD", "INTRODUCTION", "EXIT"};
+    private String[] menuItems = { "Click here to play", "leaderboard", "lntroduction", "Exit" };
+    private Font font;
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    public Font changeFont(String path, int size){
+        File fontFile = new File(path);
+        Font font;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT,fontFile);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        ge.registerFont(font);
+        Font loaded = font.deriveFont(Font.PLAIN,size);
+        return loaded;
+    }
+
 
     public void setScreen(Screen screen) {
         this.screen = screen;
@@ -26,12 +54,12 @@ public class MainPage {
     }
 
     public void initScreen() throws IOException {
-        // Ajustar aqui o tamanho da fonte para as opções do menu
-        Font font = new Font("Monospaced", Font.BOLD, 20);
-        SwingTerminalFontConfiguration fontConfig = SwingTerminalFontConfiguration.newInstance(font);
-
+        setFont(changeFont("src/main/resources/SpaceInvadersFont.ttf", 18));
+        AWTTerminalFontConfiguration cfg = new SwingTerminalFontConfiguration(true,
+                AWTTerminalFontConfiguration.BoldMode.NOTHING, getFont());
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory()
-                .setTerminalEmulatorFontConfiguration(fontConfig);
+                .setForceAWTOverSwing(true)
+                .setTerminalEmulatorFontConfiguration(cfg);
         Terminal terminal = terminalFactory.createTerminal();
 
         screen = new TerminalScreen(terminal);

@@ -13,20 +13,18 @@ public class Bullet {
     }
 
     public Bullet shoot() {
-        int bulletX = this.x + this.width / 2; // Centra o tiro na nave (corrigido)
-        int bulletY = this.y;
+        int bulletX = this.x; // A posição X do tiro é a mesma da nave
+        int bulletY = this.y - 1; // A posição Y do tiro é um acima da nave
         return new Bullet(bulletX, bulletY);
-    }   
-
+    }
     public void draw(TextGraphics textGraphics) {
         TextColor originalColor = textGraphics.getForegroundColor(); // Guardar a cor original
 
         textGraphics.setForegroundColor(Color.Orange.getColor()); // Colocar cor vermelho 
-        textGraphics.putString(x, y, "|"); // Desenhar o tiro
+        textGraphics.putString(x, y, "."); // Desenhar o tiro
 
         textGraphics.setForegroundColor(originalColor); // Reset par a cor original
-    } 
-
+    }
     public void moveUp() {
         y--;
     }

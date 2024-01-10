@@ -32,25 +32,25 @@ public class Introduction {
     private void drawTextBox(TextGraphics textGraphics) {
         String[] textBox = {
                 "+-----------------------------+",
-                "|         INTRODUCTION        |",
+                "|         lntroduction        |",
                 "+-----------------------------+",
                 "|                             |",
-                "|    OBJECTIVE OF THE GAME    |",
+                "|    Objective of the game    |",
                 "|                             |",
-                "|  Welcome to Space Invaders! |",
+                "|  welcome to Space Invaders! |",
                 "|       Kill the aliens       |",
                 "|     and be the conqueror    |",
                 "|        of the world!        |",
                 "|                             |",
-                "|         HOW TO PLAY         |",
+                "|         How to play         |",
                 "|                             |",
-                "| ARROW LEFT  --> TURNS LEFT  |",
-                "| ARROW RIGHT --> TURNS RIGHT |",
-                "| SPACE BAR   --> SHOOTING    |",
-                "| ESC         --> QUIT GAME   |",
+                "| Arrow left  --> turns left  |",
+                "| Arrow right --> turns right |",
+                "| Space bar   --> shooting    |",
+                "| ESC         --> quit game   |",
                 "|                             |",
                 "|                             |",
-                "|     PRESS ESC TO GO BACK    |",
+                "|     press esc to go back    |",
                 "|                             |",
                 "+-----------------------------+"
         };
@@ -63,7 +63,7 @@ public class Introduction {
 
         for (int i = 0; i < textBox.length; i++) {
             String line = textBox[i];
-            if (line.contains("INTRODUCTION") || line.contains("HOW TO PLAY") || line.contains("PRESS ESC TO GO BACK")) {
+            if (line.contains("lntroduction") || line.contains("How to play") || line.contains("Press esc to go back")) {
                 // Divide a linha em três partes: a "parede" esquerda, o texto e a "parede" direita
                 String leftWall = line.substring(0, 1);
                 String text = line.substring(1, line.length() - 1);
