@@ -12,6 +12,10 @@ public class Spaceship {
     public int getY() {
         return y; // Supondo que 'y' seja a posição Y da nave
     }
+
+     public int getX() {
+        return x;
+    }
     
 
     public void draw(TextGraphics textGraphics) {

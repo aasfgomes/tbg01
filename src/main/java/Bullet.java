@@ -28,7 +28,6 @@ public class Bullet {
     public void moveUp() {
         y--;
     }
-
     // Métodos get para x e y
     public int getX() {
         return x;

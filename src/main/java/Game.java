@@ -11,7 +11,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.net.URL;
 
 public class Game {
@@ -20,19 +19,36 @@ public class Game {
     private Spaceship spaceship;
     private List<Alien> aliens;
     private List<Bullet> bullets;
+    private List<AlienBullet> alienBullets;
     private boolean movingRight = true; // Começa movendo para a direita
     private int edgePadding = 2; // Espaço que os aliens devem manter da borda da tela
     private int score = 0;
     private int lives = 3; // Número de vidas do jogador
     private Random random = new Random();
     private Clip backgroundSoundClip;
+    private long lastShotTime;
+
+    private int alienBulletUpdateCounter = 0; // Contador para atualização das balas dos aliens
+    private final int ALIEN_BULLET_UPDATE_INTERVAL = 5; // Intervalo para atualização das balas dos aliens
 
     public Game(Screen screen) {
         this.screen = screen;
         this.aliens = new ArrayList<>();
         this.bullets = new ArrayList<>();
+        this.alienBullets = new ArrayList<>();
+        this.lastShotTime = System.currentTimeMillis();
     }
 
+    private void aliensShoot() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastShotTime >= 1000) {
+            if (!aliens.isEmpty()) {
+                Alien randomAlien = aliens.get(random.nextInt(aliens.size()));
+                alienBullets.add(new AlienBullet(randomAlien.getX(), randomAlien.getY() + 1));
+                lastShotTime = currentTime;
+            }
+        }
+    }
     // Método para reproduzir o som de um tiro
     private void playBulletSound(String soundFileName) {
         try {
@@ -128,7 +144,6 @@ public class Game {
                 alien.draw(textGraphics);
             }
         }
-
         while (true) {
             int counter = 0;
             while (true) {
@@ -159,7 +174,23 @@ public class Game {
 
                 if (counter % 20 == 0) {
                     moveAliens();
+                    aliensShoot(); // Aliens atiram
                 }
+                // Atualiza a posição das balas dos aliens
+                if (alienBulletUpdateCounter % ALIEN_BULLET_UPDATE_INTERVAL == 0) {
+                    List<AlienBullet> alienBulletsToRemove = new ArrayList<>();
+                    for (AlienBullet alienBullet : alienBullets) {
+                        alienBullet.moveDown();
+                        if (alienBullet.getY() >= screen.getTerminalSize().getRows()) {
+                            alienBulletsToRemove.add(alienBullet);
+                        } else {
+                            alienBullet.draw(textGraphics);
+                        }
+                    }
+                    alienBullets.removeAll(alienBulletsToRemove);
+                }
+                alienBulletUpdateCounter++;
+
 
                 if (counter % 5 == 0) {
                     List<Bullet> bulletsToRemove = new ArrayList<>();
@@ -224,6 +255,9 @@ public class Game {
                 }
                 for (Bullet bullet : bullets) {
                     bullet.draw(textGraphics);
+                }
+                for (AlienBullet alienBullet : alienBullets) {
+                    alienBullet.draw(textGraphics);
                 }
 
                 // Verifica o número de aliens restantes e cria novos se for menor que 10

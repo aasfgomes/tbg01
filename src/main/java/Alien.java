@@ -11,6 +11,10 @@ public class Alien {
         this.movingRight = true; // Defina a direção inicial como direita
     }
 
+    public AlienBullet shoot() {
+        return new AlienBullet(x, y + 1); // Create a new AlienBullet at the position of the alien
+    }
+
     public void draw(TextGraphics textGraphics) {
         TextColor originalColor = textGraphics.getForegroundColor(); // Guarda a cor original
 
@@ -48,3 +52,5 @@ public class Alien {
         this.y += 1;
     }
 }
+
+
