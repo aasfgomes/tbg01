@@ -8,6 +8,10 @@ public class Spaceship {
         this.x = x;
         this.y = y;
     }
+
+    public int getY() {
+        return y; // Supondo que 'y' seja a posição Y da nave
+    }
     
 
     public void draw(TextGraphics textGraphics) {
