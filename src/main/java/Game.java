@@ -15,16 +15,17 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Game {
-    private Clip backgroundSoundClip;
+
     private Screen screen;
     private Spaceship spaceship;
     private List<Alien> aliens;
     private List<Bullet> bullets;
-    private boolean movingRight = true;
-    private int edgePadding = 2;
+    private boolean movingRight = true; // Começa movendo para a direita
+    private int edgePadding = 2; // Espaço que os aliens devem manter da borda da tela
     private int score = 0;
-    private int lives = 3;
+    private int lives = 3; // Número de vidas do jogador
     private Random random = new Random();
+    private Clip backgroundSoundClip;
 
     public Game(Screen screen) {
         this.screen = screen;
@@ -32,7 +33,8 @@ public class Game {
         this.bullets = new ArrayList<>();
     }
 
-    private void playSound(String soundFileName) {
+    // Método para reproduzir o som de um tiro
+    private void playBulletSound(String soundFileName) {
         try {
             URL url = this.getClass().getClassLoader().getResource(soundFileName);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
@@ -44,6 +46,7 @@ public class Game {
         }
     }
 
+    // Método para reproduzir o som de fundo
     private void playBackgroundSound(String soundFileName) {
         try {
             URL url = this.getClass().getClassLoader().getResource(soundFileName);
@@ -56,9 +59,11 @@ public class Game {
         }
     }
 
+    // Método para mover os aliens
     private void moveAliens() {
         int screenWidth = screen.getTerminalSize().getColumns();
 
+        // Verifica se algum alien atingiu a borda da tela
         boolean reachedEdge = false;
         for (Alien alien : aliens) {
             if ((movingRight && alien.getX() >= screenWidth - edgePadding) ||
@@ -67,13 +72,14 @@ public class Game {
                 break;
             }
         }
-
+        // Se algum alien atingiu a borda, muda a direção e move todos os aliens para baixo
         if (reachedEdge) {
-            movingRight = !movingRight;
+            movingRight = !movingRight; // Muda a direção
             for (Alien alien : aliens) {
-                alien.moveDown();
+                alien.moveDown(); // Move os aliens para baixo
             }
         } else {
+            // Se não atingiram a borda, move todos os aliens na direção atual
             for (Alien alien : aliens) {
                 if (movingRight) {
                     alien.moveRight();
@@ -84,8 +90,9 @@ public class Game {
         }
     }
 
+    // Método principal do jogo
     public boolean start() throws IOException {
-        playBackgroundSound("soundtrack.wav");  // Toca o som de fundo
+        playBackgroundSound("soundtrack.wav"); // Toca o som de fundo
         screen.clear();
         TextGraphics textGraphics = screen.newTextGraphics();
 
@@ -94,20 +101,24 @@ public class Game {
 
         int spaceshipWidth = 4;
         int spaceshipX = (screenWidth - spaceshipWidth) / 2;
-        int spaceshipY = screenHeight - 3;
-
+        int spaceshipY = screenHeight - 3; // Posição da nave no eixo Y
         int alienHeight = 1;
+
         spaceship = new Spaceship(spaceshipX, spaceshipY);
         spaceship.draw(textGraphics);
 
-        int numAliensPerRow = 12;
-        int numAlienRows = 3;
-        int alienWidth = 1;
-        int spaceWidth = 1;
+        int numAliensPerRow = 12; // Número de aliens por linha
+        int numAlienRows = 3; // Número de linhas de aliens
+        int alienWidth = 1; // Largura de um alien
+        int spaceWidth = 1; // Largura do espaço entre dois aliens
 
+        // A largura total do bloco de aliens é a largura de todos os aliens mais os espaços entre eles
         int totalAlienBlockWidth = (numAliensPerRow * alienWidth) + ((numAliensPerRow - 1) * spaceWidth);
+
+        // A posição X inicial para centralizar o bloco de aliens
         int initialX = (screenWidth - totalAlienBlockWidth) / 2;
 
+        // Desenha os aliens usando 'initialX' para a posição X do primeiro alien
         for (int row = 0; row < numAlienRows; row++) {
             for (int col = 0; col < numAliensPerRow; col++) {
                 int x = initialX + col * (alienWidth + spaceWidth);
@@ -124,10 +135,7 @@ public class Game {
                 KeyStroke keyStroke = screen.pollInput();
 
                 if (keyStroke != null) {
-
-
                     if (keyStroke.getKeyType() == KeyType.Escape) {
-                        System.out.println("ESC key pressed");
                         if (backgroundSoundClip != null) {
                             backgroundSoundClip.stop();
                         }
@@ -145,7 +153,7 @@ public class Game {
                     if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' ') {
                         Bullet bullet = spaceship.shoot();
                         bullets.add(bullet);
-                        playSound("shoot.wav");
+                        playBulletSound("shoot.wav");
                     }
                 }
 
@@ -176,22 +184,25 @@ public class Game {
                         score += 10;
                     }
                 }
-
                 for (Alien alien : aliens) {
                     if (alien.getY() >= spaceship.getY()) {
-                        lives--;
-                        score = 0;
+                        lives--; // Decrementa uma vida
+                        score = 0; // Reinicia os pontos
+                        // Remove todos os aliens e bullets para reiniciar o jogo
                         aliens.clear();
                         bullets.clear();
+                        // Mostra a mensagem "Aliens got you!"
                         int messageX = (screenWidth - "Aliens got you!".length()) / 2;
                         textGraphics.putString(messageX, screenHeight / 2, "Aliens got you!");
                         screen.refresh();
+                        // Pausa o jogo por 2 segundos antes de reiniciar
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                         screen.clear();
+                        // Recria os aliens iniciais
                         for (int row = 0; row < numAlienRows; row++) {
                             for (int col = 0; col < numAliensPerRow; col++) {
                                 int x = initialX + col * (alienWidth + spaceWidth);
@@ -200,6 +211,7 @@ public class Game {
                                 aliens.add(newAlien);
                             }
                         }
+                        // Sai do loop para reiniciar o jogo
                         break;
                     }
                 }
@@ -214,6 +226,7 @@ public class Game {
                     bullet.draw(textGraphics);
                 }
 
+                // Verifica o número de aliens restantes e cria novos se for menor que 10
                 if (aliens.size() < 10) {
                     for (int i = 0; i < 3; i++) {
                         int x = random.nextInt(screenWidth - alienWidth);
@@ -238,6 +251,7 @@ public class Game {
                     throw new RuntimeException(e);
                 }
 
+                // Mostra o número de vidas e pontos
                 textGraphics.putString(screenWidth - 10, 0, "lives: " + lives);
                 textGraphics.putString(0, 0, "points:" + score);
 
