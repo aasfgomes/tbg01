@@ -8,11 +8,15 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
-
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+
 
 public class MainPage {
 
@@ -22,11 +26,36 @@ public class MainPage {
     private Font font;
 
     public Font getFont() {
+
         return font;
     }
 
+
     public void setFont(Font font) {
+
         this.font = font;
+    }
+
+    private List<String> readLeaderboard() throws IOException {
+        return Files.readAllLines(Paths.get("src/main/resources/leaderboard.txt"));
+    }
+
+    private void showLeaderboard() throws IOException {
+        List<String> leaderboardLines = readLeaderboard();
+        screen.clear();
+        TextGraphics textGraphics = screen.newTextGraphics();
+
+        int screenWidth = screen.getTerminalSize().getColumns();
+        int row = 3; // Iniciar a partir de uma linha específica
+
+        for (String line : leaderboardLines) {
+            int col = (screenWidth - line.length()) / 2; // Centraliza cada linha
+            textGraphics.putString(col, row++, line);
+        }
+
+        screen.refresh();
+        screen.readInput();
+        draw(); // Redesenha o menu principal após exibir o leaderboard
     }
 
     public Font changeFont(String path, int size){
@@ -58,6 +87,7 @@ public class MainPage {
     }
 
 
+
     public void setScreen(Screen screen) {
         this.screen = screen;
     }
@@ -71,7 +101,7 @@ public class MainPage {
         AWTTerminalFontConfiguration cfg = new SwingTerminalFontConfiguration(true,
                 AWTTerminalFontConfiguration.BoldMode.NOTHING, getFont());
 
-        TerminalSize size = new TerminalSize(70, 20); // Defina o tamanho desejado aqui
+        TerminalSize size = new TerminalSize(80, 24); // Defina o tamanho desejado aqui
 
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory()
                 .setForceAWTOverSwing(true)
@@ -162,7 +192,6 @@ public void run() throws IOException {
                 break;
             case Enter:
                 if (selectedMenuItemIndex == 0) { // Verifica se a opção selecionada é "CLICK HERE TO PLAY"
-
                     Game game = new Game(screen); // Cria uma nova instância de Game
                     game.start(); // Inicia o jogo
                     draw(); // Redesenha o menu principal após o jogo
@@ -170,6 +199,8 @@ public void run() throws IOException {
                     Introduction introduction = new Introduction(screen); // Passa 'screen' como argumento
                     introduction.display();
                     draw(); // Redesenha o menu principal após a introdução
+                } else if (selectedMenuItemIndex == 1) {
+                    showLeaderboard();
                 } else if (selectedMenuItemIndex == 3) { // Verifica se a opção selecionada é "EXIT"
                     screen.stopScreen(); // Fecha a janela
                                 

@@ -1,7 +1,11 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
+
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
@@ -57,11 +61,39 @@ public class Game {
         int screenHeight = screen.getTerminalSize().getRows();
 
         // Mostra Game Over no centro da tela
-        String gameOverMessage = "Game Over";
+        String gameOverMessage = "Game Over! aliens have conquered the universe!";
         int messageX = (screenWidth - gameOverMessage.length()) / 2;
         int messageY = screenHeight / 2;
         textGraphics.putString(messageX, messageY, gameOverMessage);
+
+        // Mostra a mensagem para inserir o nome
+        String enterNameMessage = "Enter your name: ";
+        int nameMessageX = (screenWidth - enterNameMessage.length()) / 2;
+        int nameMessageY = messageY + 2;
+        textGraphics.putString(nameMessageX, nameMessageY, enterNameMessage);
         screen.refresh();
+
+        // Capturar o nome do jogador
+        StringBuilder playerNameBuilder = new StringBuilder();
+        while (true) {
+            KeyStroke keyStroke = screen.readInput();
+            if (keyStroke.getKeyType() == KeyType.Enter) {
+                break;
+            } else if (keyStroke.getKeyType() == KeyType.Character) {
+                playerNameBuilder.append(keyStroke.getCharacter());
+                textGraphics.putString(nameMessageX + enterNameMessage.length(), nameMessageY, playerNameBuilder.toString());
+                screen.refresh();
+            } else if (keyStroke.getKeyType() == KeyType.Backspace && playerNameBuilder.length() > 0) {
+                playerNameBuilder.deleteCharAt(playerNameBuilder.length() - 1);
+                textGraphics.putString(nameMessageX + enterNameMessage.length(), nameMessageY, playerNameBuilder.toString() + " ");
+                screen.refresh();
+            }
+        }
+
+        String playerName = playerNameBuilder.toString();
+
+        // Adiciona a entrada no leaderboard
+        addEntryToLeaderboard(playerName, score);
 
         // Pausa antes de encerrar o jogo
         try {
@@ -70,6 +102,66 @@ public class Game {
             e.printStackTrace();
         }
     }
+
+    private void addEntryToLeaderboard(String playerName, int score) {
+        try {
+            Path path = Paths.get("src/main/resources/leaderboard.txt");
+            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+
+            // Cria uma lista de entradas do leaderboard
+            List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
+
+            // Encontra a posição onde as novas entradas devem ser inseridas
+            int dashesLinePosition = -1;
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).trim().startsWith("-------")) {
+                    dashesLinePosition = i + 1; // A posição onde deve ser inserida a nova entrada
+                    break;
+                }
+            }
+
+            // Analisar entradas existentes na leaderboard
+            for (int i = dashesLinePosition; i < lines.size(); i++) {
+                String line = lines.get(i);
+                String[] parts = line.split(" - ");
+                if (parts.length == 3) {
+                    String name = parts[1];
+                    int points = Integer.parseInt(parts[2].split(" ")[0]);
+                    leaderboardEntries.add(new LeaderboardEntry(name, points));
+                }
+            }
+            // Adiciona a nova entrada
+            leaderboardEntries.add(new LeaderboardEntry(playerName, score));
+
+            // Coloca as entradas em ordem decrescente de pontos
+            leaderboardEntries.sort((a, b) -> b.score - a.score);
+
+            // Reescreve para o arquivo com as novas entradas
+            lines = lines.subList(0, dashesLinePosition);
+            for (int i = 0; i < Math.min(10, leaderboardEntries.size()); i++) {
+                LeaderboardEntry entry = leaderboardEntries.get(i);
+                lines.add(String.format("%d - %s - %d points", i + 1, entry.playerName, entry.score));
+            }
+
+            lines.add("---------------------");
+            lines.add("press esc to go back");
+
+            Files.write(path, lines, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class LeaderboardEntry {
+        String playerName;
+        int score;
+
+        LeaderboardEntry(String playerName, int score) {
+            this.playerName = playerName;
+            this.score = score;
+        }
+    }
+
 
     private void aliensShoot() {
         long currentTime = System.currentTimeMillis();
