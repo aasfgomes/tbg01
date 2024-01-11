@@ -70,14 +70,20 @@ public class MainPage {
         setFont(changeFont("src/main/resources/SpaceInvadersFont.ttf", 18));
         AWTTerminalFontConfiguration cfg = new SwingTerminalFontConfiguration(true,
                 AWTTerminalFontConfiguration.BoldMode.NOTHING, getFont());
+
+        TerminalSize size = new TerminalSize(70, 20); // Defina o tamanho desejado aqui
+
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory()
                 .setForceAWTOverSwing(true)
-                .setTerminalEmulatorFontConfiguration(cfg);
+                .setTerminalEmulatorFontConfiguration(cfg)
+                .setInitialTerminalSize(size); // Adicione esta linha
+
         Terminal terminal = terminalFactory.createTerminal();
 
         screen = new TerminalScreen(terminal);
         screen.startScreen();
     }
+
 
     public void draw() throws IOException {
         screen.clear();

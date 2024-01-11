@@ -14,7 +14,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.net.URL;
 
 public class Game {
-
     private Screen screen;
     private Spaceship spaceship;
     private List<Alien> aliens;
@@ -25,11 +24,15 @@ public class Game {
     private int score = 0;
     private int lives = 3; // Número de vidas do jogador
     private Random random = new Random();
-    private Clip backgroundSoundClip;
+    private Clip backgroundSoundClip; // variavel de som de fundo
     private long lastShotTime;
-
     private int alienBulletUpdateCounter = 0; // Contador para atualização das balas dos aliens
     private final int ALIEN_BULLET_UPDATE_INTERVAL = 5; // Intervalo para atualização das balas dos aliens
+    private BonusPower bonusPower;
+    private int nextBonusScore = 500;
+    private int bonusPowerMoveCounter = 0;
+    private int bonusPowerDelayCounter = 0; // Contador para controlar o delay após coletar o BonusPower
+    private boolean bonusGenerated = false; // Controla se o BonusPower já foi dropado ( serve para a correção do bug ao mudar o nr de vidas )
 
     public Game(Screen screen) {
         this.screen = screen;
@@ -37,7 +40,9 @@ public class Game {
         this.bullets = new ArrayList<>();
         this.alienBullets = new ArrayList<>();
         this.lastShotTime = System.currentTimeMillis();
+        this.nextBonusScore = 500;
     }
+
     private boolean isGameOver() {
         return lives <= 0;
     }
@@ -65,6 +70,7 @@ public class Game {
             e.printStackTrace();
         }
     }
+
     private void aliensShoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 1000) {
@@ -75,6 +81,7 @@ public class Game {
             }
         }
     }
+
     // Método para reproduzir o som de um tiro
     private void playBulletSound(String soundFileName) {
         try {
@@ -93,7 +100,7 @@ public class Game {
         try {
             URL url = this.getClass().getClassLoader().getResource(soundFileName);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            backgroundSoundClip = AudioSystem.getClip(); // Inicialize a variável aqui
+            backgroundSoundClip = AudioSystem.getClip(); //
             backgroundSoundClip.open(audioIn);
             backgroundSoundClip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -170,14 +177,52 @@ public class Game {
                 alien.draw(textGraphics);
             }
         }
+
+        bonusGenerated = false;
+
         while (true) {
             int counter = 0;
             while (true) {
                 KeyStroke keyStroke = screen.pollInput();
 
+                if (score >= nextBonusScore && !bonusGenerated) {
+                    // Gera um novo BonusPower
+                    int randomX = random.nextInt(screen.getTerminalSize().getColumns() - 1);
+                    bonusPower = new BonusPower(randomX, 0);
+                    nextBonusScore += 500;
+                    bonusGenerated = true; // Marque o bônus como gerado
+                }
+
+                // Mover e desenhar o BonusPower, se existir
+                if (bonusPower != null) {
+                    if (bonusPowerMoveCounter % 10 == 0) { // velocidade do BonusPower
+                        bonusPower.moveDown();
+                    }
+                    bonusPowerMoveCounter++;
+
+                    bonusPower.draw(textGraphics);
+
+                    // Verificar colisão com a nave
+                    if (bonusPower.getX() == spaceship.getX() && bonusPower.getY() == spaceship.getY()) {
+                        // Remover 50% dos aliens
+                        int aliensToRemove = aliens.size() / 3;
+                        while (aliensToRemove-- > 0 && !aliens.isEmpty()) {
+                            aliens.remove(random.nextInt(aliens.size()));
+                        }
+                        bonusPowerDelayCounter = 1; // contador de delay
+                        bonusPower = null; // Remover o BonusPower após a colisão
+                    } else if (bonusPower.getY() >= screen.getTerminalSize().getRows()) {
+                        bonusPower = null; // Remover o BonusPower se sair do terminal
+                    }
+                    // Diminuir o contador de delay a cada ciclo
+                    if (bonusPowerDelayCounter > 0) {
+                        bonusPowerDelayCounter--;
+                    }
+                }
+
                 if (isGameOver()) {
                     showGameOver();
-                    return false; // Sai do jogo
+                    return false; // Sair do jogo
                 }
 
                 if (keyStroke != null) {
@@ -204,8 +249,8 @@ public class Game {
                 }
 
                 if (counter % 20 == 0) {
-                    moveAliens();
-                    aliensShoot(); // Aliens atiram
+                    moveAliens(); // Aliens mexem-se aqui
+                    aliensShoot(); // Aliens mandam tiros aqui
                 }
                 // Atualiza a posição das balas dos aliens
                 if (alienBulletUpdateCounter % ALIEN_BULLET_UPDATE_INTERVAL == 0) {
@@ -222,7 +267,7 @@ public class Game {
                 }
                 alienBulletUpdateCounter++;
 
-
+                // Atualiza a posição das balas do jogador
                 if (counter % 5 == 0) {
                     List<Bullet> bulletsToRemove = new ArrayList<>();
                     List<Alien> aliensToRemove = new ArrayList<>();
@@ -242,21 +287,23 @@ public class Game {
 
                     bullets.removeAll(bulletsToRemove);
                     aliens.removeAll(aliensToRemove);
+                    // Incrementa os pontos quando acerta num alien
                     for (Alien alien : aliensToRemove) {
                         score += 10;
                     }
 
+                    // Verifica se a bala do jogador atingiu algum alien
                     List<AlienBullet> alienBulletsToRemove = new ArrayList<>();
                     for (AlienBullet alienBullet : alienBullets) {
                         if (alienBullet.getX() >= spaceship.getX() && alienBullet.getX() <= spaceship.getX() + spaceshipWidth &&
-                            alienBullet.getY() >= spaceship.getY() && alienBullet.getY() <= spaceship.getY() + alienHeight) {
+                                alienBullet.getY() >= spaceship.getY() && alienBullet.getY() <= spaceship.getY() + alienHeight) {
                             lives--; // Decrementa uma vida
-                            score = 0; // Reinicia os pontos
+                            // score = 0; // Reinicia os pontos
                             // Remove todos os aliens e bullets para reiniciar o jogo
                             aliens.clear();
                             bullets.clear();
                             alienBulletsToRemove.add(alienBullet);
-                            // Mostra a mensagem "Aliens got you!"
+                            // Mostra a mensagem "Aliens got you!" de forma centrada
                             int messageX = (screenWidth - "Aliens got you!".length()) / 2;
                             textGraphics.putString(messageX, screenHeight / 2, "Aliens got you!");
                             screen.refresh();
@@ -283,14 +330,15 @@ public class Game {
                     alienBullets.removeAll(alienBulletsToRemove);
                 }
 
+                // Verifica se algum alien atingiu a nave
                 for (Alien alien : aliens) {
                     if (alien.getY() >= spaceship.getY()) {
                         lives--; // Decrementa uma vida
-                        score = 0; // Reinicia os pontos
+                        // score = 0; // Reinicia os pontos
                         // Remove todos os aliens e bullets para reiniciar o jogo
                         aliens.clear();
                         bullets.clear();
-                        // Mostra a mensagem "Aliens got you!"
+                        // Mostra a mensagem "Aliens got you!" de forma centrada
                         int messageX = (screenWidth - "Aliens got you!".length()) / 2;
                         textGraphics.putString(messageX, screenHeight / 2, "Aliens got you!");
                         screen.refresh();
@@ -327,40 +375,53 @@ public class Game {
                 for (AlienBullet alienBullet : alienBullets) {
                     alienBullet.draw(textGraphics);
                 }
+                if (bonusPower != null) {
+                    bonusPower.draw(textGraphics);
+                }
 
-                // Verifica o número de aliens restantes e cria novos se for menor que 10
-                if (aliens.size() < 10) {
-                    for (int i = 0; i < 3; i++) {
-                        int x = random.nextInt(screenWidth - alienWidth);
-                        int y = 0;
-                        Alien newAlien = new Alien(x, y);
-                        aliens.add(newAlien);
+                    // Verifica o número de aliens restantes e cria novos se for menor que 10
+                    if (aliens.size() == 10 && bonusPowerDelayCounter == 0) {
+                        for (int i = 0; i < 3; i++) {
+                            int x = random.nextInt(screenWidth - alienWidth);
+                            int y = 0;
+                            Alien newAlien = new Alien(x, y);
+                            aliens.add(newAlien);
+                        }
                     }
-                }
 
-                if (aliens.size() < 5) {
-                    for (int i = 0; i < 6; i++) {
-                        int x = random.nextInt(screenWidth - alienWidth);
-                        int y = 0;
-                        Alien newAlien = new Alien(x, y);
-                        aliens.add(newAlien);
+                    if (aliens.size() == 5 && bonusPowerDelayCounter == 0) {
+                        for (int i = 0; i < 2; i++) {
+                            int x = random.nextInt(screenWidth - alienWidth);
+                            int y = 0;
+                            Alien newAlien = new Alien(x, y);
+                            aliens.add(newAlien);
+                        }
                     }
-                }
 
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                    if (aliens.size() == 1 && bonusPowerDelayCounter == 0) {
+                        for (int i = 0; i < 10; i++) {
+                            int x = random.nextInt(screenWidth - alienWidth);
+                            int y = 0;
+                            Alien newAlien = new Alien(x, y);
+                            aliens.add(newAlien);
+                        }
+                    }
 
-                // Mostra o número de vidas e pontos
-                textGraphics.putString(screenWidth - 10, 0, "lives: " + lives);
-                textGraphics.putString(0, 0, "points:" + score);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                screen.refresh();
+                    // Mostra o número de vidas e pontos
+                    textGraphics.putString(screenWidth - 10, 0, "lives: " + lives);
+                    textGraphics.putString(0, 0, "points:" + score);
 
-                counter++;
+                    screen.refresh();
+
+                    counter++;
             }
         }
     }
 }
+

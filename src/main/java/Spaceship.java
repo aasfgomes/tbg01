@@ -16,7 +16,6 @@ public class Spaceship {
      public int getX() {
         return x;
     }
-    
 
     public void draw(TextGraphics textGraphics) {
         TextColor originalColor = textGraphics.getForegroundColor(); // Cor original
