@@ -91,10 +91,8 @@ public class Game {
         }
 
         String playerName = playerNameBuilder.toString();
-
         // Adiciona a entrada no leaderboard
         addEntryToLeaderboard(playerName, score);
-
         // Pausa antes de encerrar o jogo
         try {
             Thread.sleep(3000);
@@ -281,8 +279,16 @@ public class Game {
                     // Gera um novo BonusPower
                     int randomX = random.nextInt(screen.getTerminalSize().getColumns() - 1);
                     bonusPower = new BonusPower(randomX, 0);
-                    nextBonusScore += 500;
                     bonusGenerated = true; // Marque o bônus como gerado
+
+                    // Incrementa o próximo score para o próximo BonusPower
+                    nextBonusScore += 500;
+                }
+
+                if (score >= nextBonusScore && bonusGenerated && bonusPower == null) {
+                    int randomX = random.nextInt(screen.getTerminalSize().getColumns() - 1);
+                    bonusPower = new BonusPower(randomX, 0);
+                    nextBonusScore += 500;
                 }
 
                 // Mover e desenhar o BonusPower, se existir
