@@ -39,16 +39,21 @@ The following screenshots illustrate the game's main menu, as well as the game i
 
 ### Menus
 **Main menu**
+
 ![](docs/images/MainPage_final.png)
 
 **Leaderboard**
+
 ![](docs/images/leaderboard_final.png)
 
 **Introduction**
+
 ![](docs/images/introduction_final.png)
 
 **Game Over**
+
 ![](docs/images/GameOver_final.png)
 
 ## Author
+
 This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
