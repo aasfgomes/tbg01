@@ -1,14 +1,14 @@
   leaderboard
 ----------------------
-1 - André - 950 points
-2 - Marta - 930 points
-3 - Rui   - 900 points
-4 - Yiago - 880 points
-5 - Vasco - 840 points
-6 - Gomes - 760 points
-7 - Marco - 640 points
-8 - Jorge - 610 points
-9 - Eva   - 580 points
-10 - Maria - 350 points
+1 - teste - 1450 points
+2 - teste3 - 1340 points
+3 -  Gomes - 1240 points
+4 -   - 1170 points
+5 -  teste2 - 1090 points
+6 -   teste3 - 1050 points
+7 - André - 950 points
+8 - Marta - 930 points
+9 - Rui   - 900 points
+10 - Yiago - 880 points
 ---------------------
 press esc to go back

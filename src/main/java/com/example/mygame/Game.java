@@ -297,7 +297,7 @@ public class Game {
                     // Gera um novo BonusPower
                     int randomX = random.nextInt(screen.getTerminalSize().getColumns() - 1);
                     bonusPower = new BonusPower(randomX, 0);
-                    bonusGenerated = true; // Marque o bônus como gerado
+                    bonusGenerated = true;
 
                     // Incrementa o próximo score para o próximo BonusPower
                     nextBonusScore += 500;
@@ -321,7 +321,7 @@ public class Game {
                     // Verificar colisão com a nave
                     if (bonusPower.getX() == spaceship.getX() && bonusPower.getY() == spaceship.getY()) {
                         // Remover 50% dos aliens
-                        int aliensToRemove = aliens.size() / 3;
+                        int aliensToRemove = aliens.size() / 2;
                         while (aliensToRemove-- > 0 && !aliens.isEmpty()) {
                             aliens.remove(random.nextInt(aliens.size()));
                         }

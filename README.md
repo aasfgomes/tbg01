@@ -6,6 +6,8 @@
 
 This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
+For a more detailed version of this description [here](./docs/README.md).
+
 ## FEATURES 
 
 - **Main Menu** - When the game is initialized the main menu is displayed, allowing the player to play the game, see the leaderboard, the introduction or exit the game.

@@ -8,10 +8,6 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 ## FEATURES
 
-### IMPLEMENTED FEATURES
-
-- **Menu**
-
 ### PLANNED FEATURES
 
 - **Vehicle** - Maybe a spaceship or another vehicle, who knows?
@@ -22,6 +18,14 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 - **Score Ranking** - There will be a ranking of the scores of the 5 best players.
 - **Lives** - The player has an amount of lives that decreases every time he dies.
 - **Game Over** - When the player runs out of lives, the game ends.
+
+### IMPLEMENTED FEATURES
+
+- All features where implemented
+
+## IMPLEMENTATION - UML
+
+![](docs/images/UML_diagram.png)
 
 ### DESIGN
 
