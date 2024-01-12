@@ -36,7 +36,7 @@ These control settings are designed to ensure an intuitive and responsive gaming
 The following screenshots illustrate the game's main menu, as well as the game itself.
 
 ### Playing the game 
-![](docs/image/gameplay.gif)
+![](docs/images/gameplay.gif)
 
 ## Author
 
