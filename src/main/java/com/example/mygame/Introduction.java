@@ -1,3 +1,4 @@
+package com.example.mygame;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -14,6 +15,10 @@ public class Introduction {
 
     public Introduction(Screen screen) {
         this.screen = screen;
+    }
+
+    public Screen getScreen() {
+        return screen;
     }
 
     public void display() throws IOException {

@@ -1,3 +1,5 @@
+package com.example.mygame;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,6 +39,9 @@ public class Game {
     private int bonusPowerMoveCounter = 0;
     private int bonusPowerDelayCounter = 0; // Contador para controlar o delay após coletar o BonusPower
     private boolean bonusGenerated = false; // Controla se o BonusPower já foi dropado ( serve para a correção do bug ao mudar o nr de vidas )
+
+    private boolean isBackgroundMusicPlaying = false;
+
 
     public Game(Screen screen) {
         this.screen = screen;
@@ -93,6 +98,7 @@ public class Game {
         String playerName = playerNameBuilder.toString();
         // Adiciona a entrada no leaderboard
         addEntryToLeaderboard(playerName, score);
+        stopBackgroundMusic(); // Para o som de fundo
         // Pausa antes de encerrar o jogo
         try {
             Thread.sleep(3000);
@@ -160,7 +166,6 @@ public class Game {
         }
     }
 
-
     private void aliensShoot() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastShotTime >= 1000) {
@@ -189,14 +194,27 @@ public class Game {
     private void playBackgroundSound(String soundFileName) {
         try {
             URL url = this.getClass().getClassLoader().getResource(soundFileName);
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-            backgroundSoundClip = AudioSystem.getClip(); //
-            backgroundSoundClip.open(audioIn);
-            backgroundSoundClip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            if (!isBackgroundMusicPlaying) {
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                backgroundSoundClip = AudioSystem.getClip();
+                backgroundSoundClip.open(audioIn);
+                backgroundSoundClip.loop(Clip.LOOP_CONTINUOUSLY);
+                isBackgroundMusicPlaying = true;
+            }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
+
+    public void stopBackgroundMusic() {
+        if (backgroundSoundClip != null) {
+            backgroundSoundClip.stop();
+            isBackgroundMusicPlaying = false;
+        }
+    }
+
+
 
     // Método para mover os aliens
     private void moveAliens() {

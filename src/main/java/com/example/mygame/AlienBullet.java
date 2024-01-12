@@ -1,3 +1,4 @@
+package com.example.mygame;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 

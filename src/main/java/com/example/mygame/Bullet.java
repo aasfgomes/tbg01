@@ -1,3 +1,4 @@
+package com.example.mygame;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
@@ -6,7 +7,7 @@ public class Bullet {
     private int x, y;
     private int width;
 
-    // COntrutor com x e y 
+    // Contrutor com x e y
     public Bullet(int x, int y) {
         this.x = x;
         this.y = y;
@@ -20,7 +21,7 @@ public class Bullet {
     public void draw(TextGraphics textGraphics) {
         TextColor originalColor = textGraphics.getForegroundColor(); // Guardar a cor original
 
-        textGraphics.setForegroundColor(Color.Orange.getColor()); // Colocar cor vermelho 
+        textGraphics.setForegroundColor(TextColor.ANSI.RED); // Escolha a cor desejada
         textGraphics.putString(x, y, "."); // Desenhar o tiro
 
         textGraphics.setForegroundColor(originalColor); // Reset par a cor original

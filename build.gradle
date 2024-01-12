@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+
 }
 
 group = 'com.aasfgomes.hero'
@@ -17,8 +18,7 @@ dependencies {
     implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.1.1'
     testImplementation 'org.mockito:mockito-core:4.8.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.8.0'
-
-
+    testImplementation 'junit:junit:4.13.1'
 }
 
 test {
@@ -26,5 +26,5 @@ test {
 }
 
 application {
-    mainClass.set("Application")
+    mainClass.set("com.example.mygame.MainPage")
 }
