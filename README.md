@@ -6,10 +6,19 @@
 
 This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
-## FEATURES UNTIL NOW
+## FEATURES 
 
-- **Main Menu**
-
+- **Main Menu** - When the game is initialized the main menu is displayed, allowing the player to play the game, see the leaderboard, the introduction or exit the game.
+- **Leaderboard** - The leaderboard displays the top 10 players with the highest score.
+- **Introduction** - The introduction displays the game's instructions.
+- **Spaceship** - The spaceship is the player's character. It can move left and right, and shoot bullets.
+- **Bullets** - The bullets are the projectiles shot by the spaceship. They can destroy the aliens.
+- **Aliens** - The aliens are the enemies of the game. They move left,right and down, and shoot bullets.
+- **Score** - The score is the number of aliens destroyed by the player - 10 points per alien.
+- **Lives** - The lives are the number of times the player can be hit by an alien bullet before losing the game.
+- **Sound** - The game has sound effects and background music.
+- **Bonus Power** - Collecting the bonus power reduces the number of aliens by 50%.
+- **Game Over** - The game ends when the player loses all lives.
 
 ## Game Mechanics
 
@@ -24,8 +33,10 @@ These control settings are designed to ensure an intuitive and responsive gaming
 
 ## Screenshots
 
-### Main Menu
-![img](https://github.com/aasfgomes/tbg01/blob/master/docs/images/MainMenuImplemented.png)
+The following screenshots illustrate the game's main menu, as well as the game itself.
+
+### Playing the game 
+![](docs/image/gameplay.gif)
 
 ## Author
 
