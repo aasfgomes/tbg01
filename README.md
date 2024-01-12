@@ -27,9 +27,8 @@ For proper interaction within the game, players should use the following control
 - **Left Arrow Key** [<-] Moves the character to the left, allowing lateral movement in that direction.
 - **Right Arrow Key**[->] Moves the character to the right, facilitating lateral progression in this direction.
 - **Space Bar** executes the shooting action, crucial for engaging with challenges and adversaries.
-- **ESC** pauses the current game session, offering the option to either exit or pause the gameplay, as well as to return to the main menu.
+- **ESC** returns the player to the main menu.
 
-These control settings are designed to ensure an intuitive and responsive gaming experience.
 
 ## Screenshots
 
@@ -38,6 +37,18 @@ The following screenshots illustrate the game's main menu, as well as the game i
 ### Playing the game 
 ![](docs/images/gameplay.gif)
 
-## Author
+### Menus
+**Main menu**
+![](docs/images/MainPage_final.png)
 
+**Leaderboard**
+![](docs/images/leaderboard_final.png)
+
+**Introduction**
+![](docs/images/introduction_final.png)
+
+**Game Over**
+![](docs/images/GameOver_final.png)
+
+## Author
 This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
