@@ -1,5 +1,7 @@
-import com.example.mygame.Spaceship;
-import com.example.mygame.Bullet;
+package spaceinvaiders;
+
+import spaceinvaiders.Spaceship;
+import spaceinvaiders.Bullet;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;

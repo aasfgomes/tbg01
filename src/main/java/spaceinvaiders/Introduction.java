@@ -1,4 +1,4 @@
-package com.example.mygame;
+package spaceinvaiders;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;

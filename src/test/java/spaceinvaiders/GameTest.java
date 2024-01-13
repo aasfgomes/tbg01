@@ -1,5 +1,7 @@
-import com.example.mygame.Game;
-import com.example.mygame.Alien;
+package spaceinvaiders;
+
+import spaceinvaiders.Game;
+import spaceinvaiders.Alien;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.screen.Screen;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.example.mygame;
+package spaceinvaiders;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

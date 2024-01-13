@@ -1,10 +1,10 @@
 plugins {
     id 'java'
     id 'application'
-
+    id 'info.solidsoft.pitest' version '1.7.4'
 }
 
-group = 'com.aasfgomes.hero'
+group = 'spaceinvaiders'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -25,6 +25,13 @@ test {
     useJUnitPlatform()
 }
 
+pitest {
+    junit5PluginVersion = '0.12'
+    pitestVersion = '1.7.4'
+    excludedClasses = ['spaceinvaiders.MainPage']
+    verbose = true
+}
+
 application {
-    mainClass.set("com.example.mygame.MainPage")
+    mainClass.set("spaceinvaiders.MainPage")
 }

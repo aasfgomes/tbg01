@@ -1,4 +1,6 @@
-import com.example.mygame.Introduction;
+package spaceinvaiders;
+
+import spaceinvaiders.Introduction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

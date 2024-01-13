@@ -1,5 +1,6 @@
+package spaceinvaiders;
 
-import com.example.mygame.AlienBullet;
+import spaceinvaiders.AlienBullet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

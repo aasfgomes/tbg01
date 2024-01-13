@@ -1,4 +1,4 @@
-package com.example.mygame;
+package spaceinvaiders;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 

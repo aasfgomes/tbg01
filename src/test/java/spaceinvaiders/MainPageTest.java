@@ -1,4 +1,6 @@
-import com.example.mygame.MainPage;
+package spaceinvaiders;
+
+import spaceinvaiders.MainPage;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +19,6 @@ import com.googlecode.lanterna.input.KeyType;
 
 import java.awt.*;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
 
 class MainPageTest {
 

@@ -39,6 +39,8 @@ The following screenshots illustrate the game's main menu, as well as the game i
 ### Playing the game 
 ![](docs/images/gameplay.gif)
 
+
+
 ### Menus
 **Main menu**
 

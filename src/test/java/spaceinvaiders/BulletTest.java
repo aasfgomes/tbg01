@@ -1,4 +1,6 @@
-import com.example.mygame.Bullet;
+package spaceinvaiders;
+
+import spaceinvaiders.Bullet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
