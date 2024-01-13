@@ -25,11 +25,11 @@ This project was developed by André Gomes (a040227@umaia.pt) for POO 2023⁄24.
 
 ## IMPLEMENTATION - UML DIAGRAM
 
-![](docs/images/UML_diagram.png)
+![](images/UML_diagram.png)
 
 ### TESTING
 
-![](docs/images/coverage.png)
+![](images/coverage.png)
 
 ### SELF-EVALUATION
 
